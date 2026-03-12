@@ -1,67 +1,52 @@
 /*
-JS Operators:
-    --> +, -, *, /, % (modulus)
-    --> ++, -- (increment and decrement)
-    --> =, +=, -=, *=, /= (assignment operators)
-    --> ==, ===, !=, !==, >, <, >=, <= (comparison operators)
-    --> &&, ||, ! (logical operators)
+JS Data types:
+    --> Officially 2 types of Data types Based on "Data Store in memory and Data Access":
+        --> 1. Primitive Data types (Call by val)
+                --> When we give the val to some func or var then it gives the copy of that val not the reference.                
+                --> Number, String, Boolean, Undefined, Null, Symbol, BigInt
+                    --> id1 = symbol("123") 
+                        id2 = symbol("123") 
+                        Here id1 and id2 will be different bcz Symbol returns unique val.
+                    --> const bigNumber = 1234n; // BigInt literal
 
 
-    My View: 
-        --> JS reads code from top to bottom and left to right. 
-        --> So, it will first evaluate the expression on the left and then move to the right.
+        --> 2. Non-Primitive Data types (Reference Data types)
+                --> Can provide the reference of memory.
+                --> Arrays, Objects, Functions, etc.
+                    --> typeof (functionName) ==> functions but we call it "Object Functions"
+    
+    --> JavaScript is a dynamically typed language not a Static Typed.
+        --> Variable types are determined at runtime, not at compile time.
+        --> can change the variable type on run time as well
+        --> let a = 5; // a is a number
+        --> a = "Hello"; // now a is a string
 
-        --> console.log("3" + 4); ("34") Here + is binary operator with 2 operands "3" and 4. so concatination happened.
-        --> console.log(+ "3"); (3 as num) Here + is unary operator with 1 operand "3". so it converted string to number and returned 3.
+
+JS Memory:
+    --> 1. Stack Memory:
+        --> All premetive.
+        --> Stores primitive data types and references to non-primitive data types.
+        --> It is faster to access and manage.
+        --> Memory is automatically managed (LIFO - Last In First Out).
+
+    --> 2. Heap Memory:
+        --> Stores non-primitive data types.
+        --> It is slower to access and manage.
+        --> Memory is manually managed.
+
 */
 
 "use strict";
 
-console.log(5 + 3); // Addition ==> 8
-console.log(5**3); // Exponentiation ==> 125
-console.log(10 % 3); // Modulus ==> 1
+let myName = "Raj"; // Primitive data type (String)
+let nicName = myName; // 
 
-let a = 5
-// console.log(a++); // Post-increment ==> 5 (returns the value before incrementing)
-// console.log(++a); // Pre-increment ==> 7 (returns the value after incrementing)
-
-console.log(5 == "5"); // Loose equality ==> true (compares values after type coercion)
-console.log(5 === "5"); // Strict equality ==> false (compares values and types)
-
-console.log("a" + "b"); // String concatenation ==> "ab"
-
-console.log(1 + "2"); // Type coercion ==> "12" => it started to read from left and found a string so concatinated this
-console.log("3" + 4); // Type coercion ==> "34" => it started to read from left and found a string but it is a number in string so it converted it to number and added this
-console.log(1 + 2 + "4"); // Type coercion ==> "34" => it started to read from left and found 2 nums and added those and then found a string so concatinated.
+console.log(`myName: ${myName}, nicName: ${nicName}`);
+nicName = "Raju"; // Changing nicName does not affect myName
+console.log(`After changing nicName,  myName: ${myName}, nicName: ${nicName}`);
 
 
-console.log(+ true); // Unary plus operator ==> 1 (converts true to 1)
-console.log(+false); // Unary plus operator ==> 0 (converts false to 0)
-
-console.log(+""); // Unary plus operator ==> 0 (converts string to number)
-
-// let x = y = z = 10; //z is not defined bcz of "Strict Mode" but it will not throw an error because of right to left associativity of assignment operator. So, it will first assign 10 to z and then assign z to y and then assign y to x.
-// it is assigned like z = 10, y = 10, x = 10
-
-console.log("---------------Comparison Operators------------------------")
-//Comparison Operators
-//Operators like >, < convert to numbers
-// operators like ==, === do not convert to numbers
-console.log(null > 0); // Here null converted to num so, 0 > 0 false
-console.log(null == 0); //false bcz null does not have equal val as 0
-console.log(null >= 0); // Here null converted to num so, 0 >= 0 true
-
-console.log("--------------")
-//undefined always returns false when compared with any value using comparison operators,
-console.log(undefined >= 0); // false
-console.log(undefined == undefined); // true
-console.log(undefined === undefined); // true
-
-//That's why we avoid this type of comparisons.
-
-
-
-
-console.log("--------------")
-console.log("2" == 2); // true bcz it just check the value and convert string to num and then compare
-console.log("2" === 2); // false bcz it check the value and data type (STRICT CHECK) and here type is different so false
+let obj1 = { name: "Raj", age: 25 }; // Non-primitive data type (Object)
+let obj2 = obj1; // obj2 holds the reference to the same object in memory
+obj2.age = 26; // Changing obj2's age will affect obj1 as well
+console.log(obj1, obj2)
