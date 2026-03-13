@@ -1,58 +1,88 @@
 /*
-JS String:
-    --> we can use '' or "" or `` to declare
-    --> String interpolation:
-        --> Modern way is using  `` (template literals)
-        --> we can use placeholders ${} to insert variable in string
+JS Number:
+    --> Ways to define Numbers
+        --> const num1 = 100 // no methods and type in output even in browser
+        --> const num2 = new Number(200)
+    // new Number(200) tells specifically that we need type NUMBER
+        --> Check the console and browser console
+        --> In here out=> [number, 200] -> telling the type specifically
+            --> In Browser => Methods are also present in prototype.
+    
+    // I think reason is in num1 simple assign number is done
+    // num2 uses Number class that's why we are able to see the methods
 
 */
 
 "use strict";
+console.log(Number)
+const num2 = new Number(200) // Uses Number Class/Objects to create 
+const num1 = 100; // assign number and uses new Number method only
 
-const myName = "Raj"; // A way to declare a string variable 
-    // --> Behind the scene it is also calling new String("Raj") to create a string object
-const nicName = new String("Raj"); // Another way to declare a string variable  
-    // --> Creating a new instance using "new" keyword
-    // --> Created with help of Constructor "String" of class "String"
+// console.log(` num1: ${num1}`) //not like this
 
-console.log(myName); // Output: Raj
-console.log(nicName); // Output: Raj
-// Do these in browser console to see the difference
+console.log(num1)
+console.log(num2) // check this in browser
 
+console.log(num1.toString()) // 
+console.log(num2.toString()) // 
+console.log(num2.toString().length) // 
+console.log(num1.toFixed(2)) // 2 digits after decimal and as a string
 
-console.log(nicName.__proto__); // To access the prototype of string
-console.log(nicName.length); // To get the length property of string
+let num3 = 3.456789
+console.log(num3.toFixed(2), typeof(num3.toFixed(2))) // "3.46" as 2 digits after decimal and round off
 
-// Prototype Methods of String
-console.log(nicName.toUpperCase()); // To get the uppercase property of string
-console.log(nicName.charAt(1)); // To get the character at index 1 of string
-console.log(nicName.indexOf("a")); // To get the index of the character "A" in the string
+console.log(num3.toPrecision(3)) //"3.46" as 3 digits in total--> start from left to right and can provide in e^ x as well
+// Precision Round off be kr deta hai
+num3 = 23.456789
+console.log(num3.toPrecision(3), typeof(num3.toPrecision(3))) // "23.5"
 
+num3 = 123.556789
+console.log(num3.toPrecision(3)) // "124"
 
-let otherName = "Rajkumar"
-const substr1 = otherName.substring(0, 3); // To get the substring from index [0, 3)
-const substr2 = otherName.substring(-4, 3); // To get the substring from index [0, 3) => Does not obey negative index
-
-const substr3 = otherName.slice(0, 3); // To get the substring from [0, 3)
-const substr4 = otherName.slice(-4, 3); // To get the substring  from -4 to index 3 => Obeys negative index
-
-console.log(substr1); // Output: Raj
-console.log(substr2); // Output: Raj
-console.log(substr3); // Output: Raj
-console.log(substr4); // Output: "" as 3 is in left side and -4 is in right. 
-
-const substr5 = otherName.slice(3, -4);
-console.log(substr5); // Output: k as [3, -4)
+num3 = 1123.456789
+console.log(num3.toPrecision(3)) // "1.12e+3" as 3 digits in total and in e^x form as well
 
 
+num3 = 1000000
 
-const str1 = "     Hii    \n" // white spaces
-console.log(str1)
-console.log(str1.trim()) // remove start and end whitespaces and new line chars as well
+console.log(num3.toLocaleString()) // "1,000,000" return str based on Users lang like commas at k, million for US people
+console.log(num3.toLocaleString("en-IN")) // "10,00,000" return str as per Indian count
 
-console.log(otherName.replace("jk", "jK"))// replacing "jk" with "JK" => did not change the actual string
-console.log(otherName.includes("jk")) // To check if the string includes "jk" or not
 
-const str2 = "Hello World Welcome to JavaScript"
+//Min and Max val of number (not bigint) in JS
 
-console.log(str2.split(" ")); // To split the string into an array of substrings based on the separator " " (space)
+const minNumber = Number.MIN_VALUE
+const maxNumber = Number.MAX_VALUE
+const maxSafeIntNumber = Number.safeInteger // 2^53 - 1 as max safe integer in JS
+
+console.log(`Min Number: ${minNumber} and Max Number: ${maxNumber}`) // Min Number: 5e-324 and Max Number: 1.7976931348623157e+308
+
+
+
+
+
+console.log("---------Maths------------------")
+// math Library or Object
+console.log(Math)
+console.log(Math.abs(-4)) //4 as |-x|
+
+console.log(Math.round(4.4)) // 4
+console.log(Math.round(4.5)) // 5
+console.log(Math.ceil(4.4)) // 5 as it rounds up to nearest integer
+console.log(Math.floor(4.7)) // 4 as it rounds down to nearest integer
+
+
+console.log(Math.random()) // 0 to 1 random number
+console.log(Math.random() *10) // 0 to 1 random number
+
+// Generate random number between 5 to 13
+const min = 5
+const max = 13
+let temp_num = Math.random(); // 0 - 1
+temp_num = Math.random() * 10 // 0 - 10
+temp_num = Math.random() * (max - min) // 0 - 8
+temp_num = Math.random() * (max - min) + min // 5 - 13  but decimals as well
+// temp_num = Math.fllor(Math.randon() * (max - min) + min // 5 - 13  but decimals as well
+
+const generatedNum = Math.floor((Math.random() * (max - min +1)) + min) // 5 - 13  but decimals as well
+console.log(generatedNum)
