@@ -1,94 +1,169 @@
 /*
 
-JS:
-    --> JS is Single Threaded languages.
-    --> JS calls execution ==> "Process"
-    --> Executes "line by line" and "left to right"
-
-JS Execution Context:
-    --> JS tells that how JS will execute our program file.
-    --> First, JS creates "Global Execution Contex (GEC) / Global Environment"
-            --> refers GEC to "this" keyword. All browser, Node, bun have their own GEC). 
-            --> "window" is GEC in browser.
-    --> Second, JS creates "Function Execution Context (FEC)"
-
-    --> Mainly above 2 are the main but in Mongoose we have one more context
-        --> "Eval Execution Context (EEC)"
-                --> It is a property of GEC. So no need to know more now.
+JS Control Flow /Logic Control:
+    --> operators: <, >, <=, >=, ==, !=, ===, !==, 
+    --> && (AND), || (OR) , ! (NOT)
+    -->if - else conditions:
+            --> code execute if it is true.
+    --> Switch
 
 
-JS Code Execution:
-    Phase 1: "Memory Phase / Memory Creation Phase / Creation Phase"
-            --> Memory is allocated to variables
-    Phase 2: "Execution Phase"
+--> truthy - Falsy Values:->
+        --> Just check if it is defined or not. Does not check the val.
 
+Nullish Coalescing Operator (??) :=>
+        --> just focus on => null, undefined
+        --> let num = a ?? b ?? c;
+            --> num = a if a is not null or undefined
+            --> num = b if a is null/undefined and b is not null/undefined
+        --> It is not a good practice if your code has any val "null/undefined" 
+            --> this is the best way to handle them as we can add true or false in end as well
+            --> a ?/ b ?? c ?? false
 
-Call Stack:
-    --> |              |
-    --> |              |
-    --> |              |
-    --> |     sec func | -> sec is in first. else 
-    --> |    first fun |
-    --> | Global Scope |
-    -->```````````````````
-    --> LIFO concept
-    --> Broser > Source > Snippets > create "a.js" file
-    --> We have "call stack" there which can be helpful
+Ternary Operator:=>
+        --> small/short form of 'if-else'
+        --> condition ? expressionIfTrue : expressionIfFalse
 
 */      
 
 // "use strict";
 
+//implicit Scope: -> execute in one line
+const money = 1000;
+if (money > 500) console.log("Money > 500"); //; is needed to end the scope
+
+if (money > 600) console.log("Money > 600"),  //; is needed to end the scope
+console.log("Money > 900"); // this also comes under this scope as we need semicolon to end but it is not a good practice
 
 
-// Flow of this code
-let num1 = 5;
-let num2 = 9;
+// Switch Case:
+// -- if no break then once it is match all below code will execute 
 
-// console.log(add)
-function add(val1, val2){
-    let result = val1 + val2
-    return result
+//It searches top-to-bottom for a matching case.
+// If no match is found, it jumps to the default block (if present).
+
+
+let month = 3
+
+switch (month) {
+    case 1:
+        console.log("Jan");
+        break;
+    case 2:
+        console.log("Feb");
+        break;
+    case 3:
+        console.log("Mar");
+        break;
+    case 4:
+        console.log("Apr");
+        break;
+    default:
+        break;
 }
 
-let result1 = add(num1, num2)
-let result2 = add(2, 4)
+// switch (month) {
+//     case 1:
+//         console.log("Jan");
+//         break;
+//     case 2:
+//         console.log("Feb");
+//         break;
+//     case 3:
+//         console.log("Mar");
+//     case 4:
+//         console.log("Apr");
+//     default:
+//         console.log("Else");
+// } //mar apr else
 
-// Till Here
+// month = 9
+// switch (month) {
+//     default:
+//         console.log("Else");
+//     case 1:
+//         console.log("Jan");
+//     case 2:
+//         console.log("Feb");
+//     case 3:
+//         console.log("Mar");
+//     case 4:
+//         console.log("Apr");
+    
+// } //else jan, feb, mar, apr
 
 
-// Flow ::==>
+month = 3
+switch (month) {
+    default:
+        console.log("Else");
+    case 1:
+        console.log("Jan");
+    case 2:
+        console.log("Feb");
+    case 3:
+        console.log("Mar");
+    case 4:
+        console.log("Apr");
+    
+} //mar, apr
+
+
+
+
+
+
+
+//truthy -falsy value:
+// Some val we assume as true or false, like empty string, empty array, etc. 
+
+// All objects are truthy, and in JavaScript, arrays are a type of object.  ***************************
+// The language checks existence, not emptiness — so if it's an object (even empty), it's considered true in a boolean context. 
+// an empty string has no characters, so it's logically equated with absence or emptiness
+
+
+
+// let val = "" //falsy bcz it is defined in JS that it has some val like nothing or NaN
+// let val = "abc" //thruthy
+// let val = [] //thruthy
+// let val = null //falsy
+let val = {} //falsy
+if (val){
+    console.log("Val is there means Truthy");
+}
+else {
+    console.log("Val is not there means Falsy");
+}
 /*
-1. Global Execution Context: 
-    --> JS creates this and assign to "this" keyword
+Falsy Val:=>  false, 0, -0, BigInt 0n, ", null, undefined, NaN"
+Truthy Val:=> "0", "false", " ", [], {}, function(){}
 
-2. Memory Phase: (First Cycle)
-    --> memory creation "line by line"
-    --> Code
-        - num1 - undefined (but as it is const/let so can not access it)
-        - num2 - undefined 
-        - add -> definition (function definition) -> function definition as it is.
-        - result1 -> undefined
-        - result2 -> undefined
 
-2. Execution Phase: (Second Cycle)
-    --> Execution "line by line" and from left to right
-    --> Code
-        - num1 - 5
-        - num2 - 9
-        - add -> Nothing to de here
-        - result1 -> go to function definition and creates its own Execution Context
-                    --> It create "New Variable Environment + Execution thread" **************************
-                    --> Memory creation phase and Execution phase will happen again for this function
-                    --> memory Allocation Phase:
-                        --> val1 = undefined
-                        --> val2 = undefined
-                        --> result = undefined
-                    --> Execution Phase
-                        --> val1 = 5
-                        --> val2 = 9
-                        --> result = 14 after process (5+9)
-                        --> return this to parent Execution phase.
-                    --> Delete this 
-        - result2 -> similar as result1.
+
+Use length property 
+if (arr1.length === 0) 
+if (Object.keys(obj1).length === 0) 
+
+false == 0 -> true
+false == "" -> true
+0 == "" -> true
 */
+
+
+
+
+
+// Nullish Coalescing Operator (??) :=>
+let val1;
+val1 = 5 ?? 10; //5 if first val is available then first else second
+val1 = null ?? 10; //10 if first val is available then first else second
+val1 = undefined ?? 10; //10 if first val is available then first else second
+
+console.log(val1)
+
+
+
+//Ternary  Operator
+const age = 23
+let result = (age > 18) ? "Can Drive" : "Can not drive"
+console.log(result);
