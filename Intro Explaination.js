@@ -1,118 +1,94 @@
 /*
 
-this Keyword:
-    --> this keyword refers to current context or parent scope [only for Objects]. 
-    --> context is just like values.
-    --> this keyword in browser referes to "Window" Object
-    --> this keyword in Node referes to empty object {} 
-    --> can not use this in function scope
+JS:
+    --> JS is Single Threaded languages.
+    --> JS calls execution ==> "Process"
+    --> Executes "line by line" and "left to right"
+
+JS Execution Context:
+    --> JS tells that how JS will execute our program file.
+    --> First, JS creates "Global Execution Contex (GEC) / Global Environment"
+            --> refers GEC to "this" keyword. All browser, Node, bun have their own GEC). 
+            --> "window" is GEC in browser.
+    --> Second, JS creates "Function Execution Context (FEC)"
+
+    --> Mainly above 2 are the main but in Mongoose we have one more context
+        --> "Eval Execution Context (EEC)"
+                --> It is a property of GEC. So no need to know more now.
 
 
-Arrow Functions:
-    --> in ES6 (2015)
-    --> use Arrow to define function
-    --> (num1, num2) =>{} //we need to hold the val in variable
-    --> Implicit return and Explicit return 
-        --> Can not return Object in Implicit so better to wrap in ()
-    
-Immediately Invoked Function Expression (IIFE):
-    --> A function we execute right when we define. 
-    --> (function define)()
-    --> it has its own scope and does not polute global values. Create private variables/functions.
-    --> It is useful to avoid the pollution of Global scope variables. 
-    --> Suppose there are some properties in global scope and we define that is our function as well then it will update the global one. 
-    --> Multiple functions of same name are pulled in a single file. We will get the updated function right?
-    --> Read more: https://www.tutorialsteacher.com/javascript/immediately-invoked-function-expression-iife 
-    --> Run setup code immediately like connecting to DB, or some important functions
-    --> //Befor and after IIFE we need a semicolon to tell that this is the end of the function. JS automatically does not know this
+JS Code Execution:
+    Phase 1: "Memory Phase / Memory Creation Phase / Creation Phase"
+            --> Memory is allocated to variables
+    Phase 2: "Execution Phase"
 
-    */      
+
+Call Stack:
+    --> |              |
+    --> |              |
+    --> |              |
+    --> |     sec func | -> sec is in first. else 
+    --> |    first fun |
+    --> | Global Scope |
+    -->```````````````````
+    --> LIFO concept
+    --> Broser > Source > Snippets > create "a.js" file
+    --> We have "call stack" there which can be helpful
+
+*/      
 
 // "use strict";
 
-const obj1 = {
-    "name": "Raj",
-    "age": 23,
-    "thiscontext": function(){
-        console.log("context or this :==>", this) //this referes to the object "{ name: 'Raj', age: 23, greet: [Function: greet] }"
-    },
-    greet: function(){
-        console.log(`Hello ${this.name}`)
-    },
+
+
+// Flow of this code
+let num1 = 5;
+let num2 = 9;
+
+// console.log(add)
+function add(val1, val2){
+    let result = val1 + val2
+    return result
 }
 
-obj1.thiscontext()
-obj1.greet()
-obj1.name = "Raja"
-obj1.greet()
+let result1 = add(num1, num2)
+let result2 = add(2, 4)
 
-console.log(this) //{} -> empty object
+// Till Here
 
 
-function abc(){
-    const name = "Rajesh"
+// Flow ::==>
+/*
+1. Global Execution Context: 
+    --> JS creates this and assign to "this" keyword
 
-    //In non-strict mode: this refers to the global object (window in browsers, global in Node.js). 
-    //In strict mode: this is undefined.
-    console.log(this) //undefined
+2. Memory Phase: (First Cycle)
+    --> memory creation "line by line"
+    --> Code
+        - num1 - undefined (but as it is const/let so can not access it)
+        - num2 - undefined 
+        - add -> definition (function definition) -> function definition as it is.
+        - result1 -> undefined
+        - result2 -> undefined
 
-    console.log(this.name) //undefined in both modes as "this" is only for objects but error in restrict mode
-}
-abc()
-
-
-
-//++++++++++++++++++++ Arror Function +++++++++++++
-console.log("++++++++++++++++++++ Arror Function +++++++++++++")
-
-const func1 = () =>{
-    const nae = "Raj"
-    console.log(this)
-    console.log(this.name)
-}
-
-func1()
-
-
-//Explicit return -> if {} add krte ho to return statement use krna hi padega
-const add = (num1, num2)=>{
-    return (num1 + num2) //explicit return -> we are adding return statement
-}
-console.log(add(2, 3));
-
-
-//inplicit return -> if oneline code function is there then no need to braces, just write the return line
-// const add2 = (num1, num2) => num1 + num2  //it is also good but we need ( ) to return objects
-const add2 = (num1, num2) => (num1 + num2) 
-console.log(add2(2, 3));
-
-
-// const add3 = () => {"name": "Raj"} //unexpected tocken ":" --> so btter to use 
-const add3 = () => {name: "Raj"}
-console.log(add3()) //undefined
-
-
-const add4 = () => ({name: "Raj"})
-console.log(add4()) //{ name: 'Raj' }
-
-
-//++++++++++++++++++++ IIFE (immediatly Invoked Function Expression) +++++++++++++
-console.log("++++++++++++++++++++ IIFE +++++++++++++");
-
-// function func1(){}
-// func1() // we executaed one line later -> NOT IIFE
-
-(function func2(){ //name IIFE as it has a name
-    console.log("Hello from normal IIFE");
-})();
-
-//Befor and after IIFE we need a semicolon to tell that this is the end of the function. JS automatically does not know this
-
-(()=>{ //simple/unnamed IIFE 
-    console.log("Hello from arrow IIFE");
-})();
-
-//Args
-((name)=>{
-    console.log(`Hello to ${name} from arrow IIFE`);
-})("Raj");
+2. Execution Phase: (Second Cycle)
+    --> Execution "line by line" and from left to right
+    --> Code
+        - num1 - 5
+        - num2 - 9
+        - add -> Nothing to de here
+        - result1 -> go to function definition and creates its own Execution Context
+                    --> It create "New Variable Environment + Execution thread" **************************
+                    --> Memory creation phase and Execution phase will happen again for this function
+                    --> memory Allocation Phase:
+                        --> val1 = undefined
+                        --> val2 = undefined
+                        --> result = undefined
+                    --> Execution Phase
+                        --> val1 = 5
+                        --> val2 = 9
+                        --> result = 14 after process (5+9)
+                        --> return this to parent Execution phase.
+                    --> Delete this 
+        - result2 -> similar as result1.
+*/
