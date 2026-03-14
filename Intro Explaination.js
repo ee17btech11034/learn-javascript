@@ -1,88 +1,63 @@
 /*
-JS Number:
-    --> Ways to define Numbers
-        --> const num1 = 100 // no methods and type in output even in browser
-        --> const num2 = new Number(200)
-    // new Number(200) tells specifically that we need type NUMBER
-        --> Check the console and browser console
-        --> In here out=> [number, 200] -> telling the type specifically
-            --> In Browser => Methods are also present in prototype.
-    
-    // I think reason is in num1 simple assign number is done
-    // num2 uses Number class that's why we are able to see the methods
+JS Date and Time:
+    --> milisonds from Jan 1, 1970 as it is easy to compare dates in this format.
+    --> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+    --> let dateNow = new Date(); //2026-03-13T18:08:55.919Z --> Object
+    --> let myTimeStamp = Date.now(); //milisonds from Jan 1, 1970 -> also a way to create date
+
 
 */
 
 "use strict";
-console.log(Number)
-const num2 = new Number(200) // Uses Number Class/Objects to create 
-const num1 = 100; // assign number and uses new Number method only
+console.log(Date)
 
-// console.log(` num1: ${num1}`) //not like this
-
-console.log(num1)
-console.log(num2) // check this in browser
-
-console.log(num1.toString()) // 
-console.log(num2.toString()) // 
-console.log(num2.toString().length) // 
-console.log(num1.toFixed(2)) // 2 digits after decimal and as a string
-
-let num3 = 3.456789
-console.log(num3.toFixed(2), typeof(num3.toFixed(2))) // "3.46" as 2 digits after decimal and round off
-
-console.log(num3.toPrecision(3)) //"3.46" as 3 digits in total--> start from left to right and can provide in e^ x as well
-// Precision Round off be kr deta hai
-num3 = 23.456789
-console.log(num3.toPrecision(3), typeof(num3.toPrecision(3))) // "23.5"
-
-num3 = 123.556789
-console.log(num3.toPrecision(3)) // "124"
-
-num3 = 1123.456789
-console.log(num3.toPrecision(3)) // "1.12e+3" as 3 digits in total and in e^x form as well
+let dateNow = new Date();
+console.log(dateNow) //2026-03-13T18:08:55.919Z --> Object
+console.log(dateNow.toString()) //Fri Mar 13 2026 23:39:54 GMT+0530 (India Standard Time)
+console.log(dateNow.toLocaleString()) //13/3/2026, 11:41:27 pm
+console.log(dateNow.toLocaleDateString()) //13/3/2026
+console.log(dateNow.toLocaleTimeString()) //11:41:44 PM
+console.log(dateNow.toDateString()) //Fri Mar 13 20264
 
 
-num3 = 1000000
+console.log("-------------")
+let newDate = new Date(2026, 0, 13); //Months 0 se start hote hai. 13 jan 2026
+// let newDate = new Date(2026, 0, 13); // Yr, Month, Date, Hr, Min, Sec
+let newDate2 = new Date("2026-01-13"); // yaha month 1 se start honge
+// let newDate2 = new Date("13-01-2026"); // yaha month 1 se start honge
+console.log(newDate)
+console.log(newDate.toDateString()) //Tue Jan 13 2026
 
-console.log(num3.toLocaleString()) // "1,000,000" return str based on Users lang like commas at k, million for US people
-console.log(num3.toLocaleString("en-IN")) // "10,00,000" return str as per Indian count
 
 
-//Min and Max val of number (not bigint) in JS
+let myTimeStamp = Date.now(); //milisonds from Jan 1, 1970 -> also a way to create date
+console.log(myTimeStamp)
+//We use this to compare dates in hotel bookings and all.
 
-const minNumber = Number.MIN_VALUE
-const maxNumber = Number.MAX_VALUE
-const maxSafeIntNumber = Number.safeInteger // 2^53 - 1 as max safe integer in JS
+console.log(newDate2.getTime()) //milisonds from Jan 1, 1970 to 13 Jan 2026
 
-console.log(`Min Number: ${minNumber} and Max Number: ${maxNumber}`) // Min Number: 5e-324 and Max Number: 1.7976931348623157e+308
 
+//Convert to seconds -> divide by 1000 as it is milisec.
+//But issue is it comes in decimal so iske liye Floor/round use kre not ceil
+console.log(Date.now()/1000)
+console.log(Math.floor(Date.now()/1000))
+
+// let todaysDate = Date.now()
+// console.log(todaysDate.getMonth()) //error as it is not a date object, it is milisec from Jan 1, 1970
+
+
+let todaysDate = new Date(); //Now it is a date object ****************************************
+console.log(todaysDate.getMonth()) //0 se start hote hai months
+console.log(todaysDate.getDate()) //1 se start hote hai date
+console.log(todaysDate.getFullYear()) //2026
 
 
 
 
-console.log("---------Maths------------------")
-// math Library or Object
-console.log(Math)
-console.log(Math.abs(-4)) //4 as |-x|
-
-console.log(Math.round(4.4)) // 4
-console.log(Math.round(4.5)) // 5
-console.log(Math.ceil(4.4)) // 5 as it rounds up to nearest integer
-console.log(Math.floor(4.7)) // 4 as it rounds down to nearest integer
-
-
-console.log(Math.random()) // 0 to 1 random number
-console.log(Math.random() *10) // 0 to 1 random number
-
-// Generate random number between 5 to 13
-const min = 5
-const max = 13
-let temp_num = Math.random(); // 0 - 1
-temp_num = Math.random() * 10 // 0 - 10
-temp_num = Math.random() * (max - min) // 0 - 8
-temp_num = Math.random() * (max - min) + min // 5 - 13  but decimals as well
-// temp_num = Math.fllor(Math.randon() * (max - min) + min // 5 - 13  but decimals as well
-
-const generatedNum = Math.floor((Math.random() * (max - min +1)) + min) // 5 - 13  but decimals as well
-console.log(generatedNum)
+// Customize date format
+// console.log(dateNow.toLocaleString()) //13/3/2026, 11:41:27 pm
+// we can customize it by passing options in toLocaleString
+console.log(dateNow.toLocaleString('en-US', //'en-US' is for language and region 
+    {day: '2-digit', 
+        month: 'short', 
+        year: 'numeric'})) //Mar 14, 2026
