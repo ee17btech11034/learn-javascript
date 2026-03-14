@@ -9,78 +9,90 @@ JS Objects:
             --> When we create using this then That is a "Singleton" object means it will have a single instance.
             --> Object.create()
 
-    --> Use sumbol as an key.
-    --> when we use [] in key that means that will be treated a s property not as standard key.
-    --> this keyword
+    --> console.log(obj2.dietplan?.morning.food); //we add ? to be on safer side that if "dietplan" not present then undefined not error
+    --> .assign or spread operator
+    --> de-structure of objects
 
+    --> JSOn is object with keys as strings and val as string or a datatype.
+        --> Random user me API
+        --> Use JSOn formator to format JSON data
 */      
 
 "use strict";
-//{} are called literals
-const userDetails = {
-    "name": "Raj",
-    "age": 18,
-    location: "JP", //automatically uses string
-    isLogged: false,
-    favNumbers: [1, 2, 4],
-    "full name": "Raj Asiwal",
-}
 
-console.log(userDetails);
-console.log(userDetails.age); // here we can access without ""
-// console.log(userDetails.full name); // can not use here as it will throw error
-// console.log(userDetails."full name"); // not allowed
-// console.log(userDetails[location]); //error 'location' not defined as obj keys are string
-console.log(userDetails["location"]); //
+const obj1 = new Object() //using constructor, it is a Singleton
+console.log(obj1); // {} same 
 
 
-// Symbol as a key
-const mySymbol = Symbol("key12")
+// nested Objects:
 const obj2 = {
-    "full name": "Raj Asiwal",
-    mySymbol: "key1", // this key will be in string format
-    [mySymbol]: "key2", // this will be a property not a key will be in Symbol format
-}
-
-console.log(obj2["mySymbol"], typeof(obj2["mySymbol"])) // access key as a string
-console.log(obj2.mySymbol);
-
-console.log(obj2[mySymbol]) // access key as a Symbol
-console.log("key type:", typeof(Object.keys(obj2)[1])) // string
-console.log("key type:", typeof(Object.keys(obj2)[2])) // undefined bcz it does not include Symbol keys
-console.log(Object.getOwnPropertySymbols(obj2))
-
-
-
-// val mutation
-const obj3 = {
     "name": "Raj",
-    "age": 18,
-    location: "JP", //automatically uses string
-    isLogged: false,
+    "favnumber": [1, 2, 4],
+    "dietplan": {
+        "morning": {
+            "food": ["sprouts", "apple"],
+            "exercise": ["pushups", "yog"],
+        },
+        "evening": {
+            "food": ["carrot", "chapati"],
+            "exercise": ["pushups", "pullups"],
+        }
+    }
 }
 
-console.log(obj3["name"]);
-obj3["name"] = "Raja"
-console.log("Change 1: ", obj3["name"]);
-
-Object.freeze(obj3) // freeze object and does not mutate
-// obj3["name"] = "Rohit" //  error as we can not change
-console.log("Change after freeze: ", obj3["name"]);
+console.log(obj2.dietplan.morning);
+console.log(obj2.dietplan.morning.food);
+console.log(obj2.dietplan?.morning.food); //we add ? to be on safer side that if "dietplan" not present then undefined not error
+console.log(obj2.dietplans?.morning.food); //undefined as dietplans not present
 
 
+const obj3 = {
+    1: "a",
+    2: "b"
+}
 
-// functions
 const obj4 = {
-    name: "Raja",
-}
-obj4.greet = function(){
-    console.log("Hello from greet");   
-}
-obj4.greet2 = function(){ // easy to use obj3.greet2 that obj3["greet2"]
-    console.log(`Hello ${this.name} from greet2`);   //this keyword refrs to the object
+    3: "c",
+    4: "a",
+    // 1: "b" //aisa hai to wo update kr dega
 }
 
-console.log(obj4.greet); //[Function (anonymous)] reference of this function
-console.log(obj4.greet()); //"Hello from greet" \n "undefined" it executes 2 times.
-console.log(obj4.greet2());//"Hello Raja from greet2" \n "undefined" executes 2 times
+const obj5 = {obj3, obj4} //{ obj3: { '1': 'a', '2': '2' }, obj4: { '3': 'a', '4': '2' } }
+console.log(obj5);
+
+const obj6 = Object.assign(obj3, obj4) // target is obj3
+console.log("target obj3: ", obj3) //{ '1': 'a', '2': 'b', '3': 'c', '4': 'a' } as obj3 modified
+console.log("obj6: ", obj6)
+
+const obj7 = Object.assign({}, obj3, obj4) // we prefer to use {} as target 
+console.log("target {}: ", obj3)
+console.log("obj7: ", obj7)
+
+
+const obj8 = {...obj3, ...obj4}
+console.log("spread: ", obj8);
+
+console.log(Object.keys(obj8)); //array of keys
+console.log(Object.values(obj8)); //array of values
+console.log(Object.entries(obj8)); //[[key, val], [key, val]]   array of array key values
+
+console.log(obj8.hasOwnProperty('1')); //takes key and return boolean
+
+
+
+// Object De-structure
+const obj9 = {
+    "users_full_name": "Raj",
+    "age": "23",
+}
+
+console.log(obj9.users_full_name); //everytime i will have to write this long text
+
+//de-structure it
+const {users_full_name} = obj9
+console.log(users_full_name);
+
+//use short name
+
+const {users_full_name:userName} = obj9 //************************** */
+console.log(userName); //i can use nic name to call it
