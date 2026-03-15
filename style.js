@@ -1,21 +1,27 @@
 /*
 
-DOM manipulation:
+ # codesandbox.io:
+        --> We can write whole HTML, CSS, JS files to run . 
+        --> Other similar tool is "One Compiler"
+        --> Use "stackblitz"   ************************************
+
+ # md file:
+        --> .md file me 
+        --> ``` javascript -> Ye code block type bana deta hai.
+                code
+            ```
+
+Projects:
+    --> 4 projects
+    --> 1. Color Chnager
+    --> 2. BMI Generator (Body mass ration calculator)
+    --> 3. Digital Clock
+    --> 4. Guess the number
     
-
-    # Edit Element
-        --> document.querySelector(".weekdays").appendChild(li)
-                --> Here we have to traverse again and again.
-        --> thursdayDiv.replaceWith(newthursdayDiv) //we did an replace
-                --> Here we have reference in thurDiv and just running replace
-        
-    --> Simple way to add:
-        --> const monDiv = document.querySelector("li:last-child")
-        --> monDiv.outerHTML = `<li> Sunday </li>` 
-
-    # Remove Element
-        --> remove it
-        --> monDiv.remove()
+    
+EvenListner:
+    --> We can add event listners to any tag or block in JS. 
+    --> events can be any action like mouse hover, click, or any other
 */
 
 

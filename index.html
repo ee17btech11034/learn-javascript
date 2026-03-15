@@ -4,58 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML Document</title>
+    <style>
+        ul {
+            display: inline-block;
+            list-style-type: none;
+        }
+        li {
+            display: flex;
+            height: 50px;
+            width: 250px;
+            border: 2px solid cornflowerblue;
+            margin: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+        a {
+            text-decoration: none;
+
+        }
+    </style>
 </head>
-<body style="background-color: black; color: aliceblue;">
-    <div class="main-container">
-        <h1 id="heading1" class="main-headings">Hello Raj</h1>
-        <p>I hope you all are okay. <span style="display: none;">hiddedn span</span> <span>visible span</span></p>
+<body style="background-color: aliceblue;">
+    <div class="container">
+        <ul>
+            <li> <a href="./project1.html"> Project 1: Color Change </a> </li>
+            <li> <a href="./project2.html"> Project 2: Color Change </a> </li>
+            <li> <a href="./project3.html"> Project 3: Color Change </a> </li>
+            <li> <a href="./project4.html"> Project 4: Color Change </a> </li>
+        </ul>
     </div>
-    <ul class="weekdays">
-        <li class="weekday">Monday</li>
-        <li class="weekday">Tuesday</li>
-        <li class="weekday">Wednesday</li>
-        <!-- <div class="weekday">Thursday</div> //We will add these using JS
-        <div class="weekday">Friday</div>
-        <div class="weekday">Saturday</div>
-        <div class="weekday">Sunday</div> -->
-    </ul>
 </body>
 <script>
-    function addWeekDay(day){
-        const li = document.createElement('li') //we can name these as html tags as they are not keywords of JS
-        li.innerHTML = `${day}` //we can optimize this
-        document.querySelector(".weekdays").appendChild(li)
-    }
-
-    addWeekDay("thursday") //first char is lower so that we can edit it
-    addWeekDay("Friday")
-
-    function addWeekDayOptimizeWay(day){
-        const li = document.createElement('li') //we will have to create
-        li.appendChild(document.createTextNode(`${day}`)) //optimized way to add
-        document.querySelector(".weekdays").appendChild(li) //Check here we are traversing this tree to this node and then traverse to insert in end.
-    }
-
-    addWeekDayOptimizeWay("Saturday")
-    addWeekDayOptimizeWay("sunday")
-
-
-    // Edit Element
-    const thursdayDiv = document.querySelector("li:nth-child(4)") //li tag wala select kro jo ki 4th par ho
-    // console.log(thursdayDiv);
-    // thursdayDiv.innerHTML = "Thursday"// Not optimizes
-    const newthursdayDiv = document.createElement('li')
-    newthursdayDiv.textContent = "Thursday"
-    thursdayDiv.replaceWith(newthursdayDiv) //we did an replace
-
-    // const monDiv = document.querySelector("li:first-child")
-    const monDiv = document.querySelector("li:last-child")
-    monDiv.outerHTML = `<li> Sunday </li>` 
-
-    //Remove Element
-    addWeekDayOptimizeWay("JustCheck")
-    const removeExtra = document.querySelector("li:last-child")
-    removeExtra.remove()
     
 </script>
 </html>
