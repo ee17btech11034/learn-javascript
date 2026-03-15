@@ -1,76 +1,57 @@
 /*
 
-DOM Selectors:
-    --> NodeLists; HTMLCollections, etc.
+DOM manipulation:
+    --> Create a new element.
 
-
-
-// double click on HTML file. This will open in browser. 
-    --> inspect > console
-        --> `document.getElementById('heading1')`
-            --> it return while element ==> `<h1 id="heading1" class="main-headings">Hello Raj</h1>`
-            --> Here we can access all attributes  like id, className, conect etc from here. 
-            --> `document.getElementById('heading1').id` ==> "heading1" 
-            --> class Vs className *********************************************************************************
-                --> we write class but when DOM creates its Odject then it uses "className" that's why we use className to access not class
-                --> `document.getElementById('heading1').class` ==> undefined 
-                --> `document.getElementById('heading1').className` ==> "main-headings" 
-            
-            --> Access using Attrubites:
-                --> `document.getElementById('heading1').getAttribute('id')` -> "heading1" 
-                --> `document.getElementById('heading1').getAttribute('class')` -> "main-headings"  **********************
-            
-            --> Set the new Attribute or update one:    
-                --> `document.getElementById('heading1').setAttribute('id', "heading2")` -> undefined return krta hai
-                --> `document.getElementById('heading1').setAttribute('id', "heading2 heading3")` -> undefined return krta hai -> set multiple val. 
-                        --> I know we should not assign multiple id to a single element as no sense, just for practice
-            
-            --> style this:
-                --> we can store the selected element ans then perform actions on that as well
-                --> `const pageheading = document.getElementById('heading1')`
-                    --> `pageheading.style.backgroundColor="purple"`
-                    --> `pageheading.style.color="red"`
-
-    ## .textContent Vs .innerHTML Vs .innerText ********************************************
-        --> innerHTMl supports HTML tags bit other two do not.
-        --> `const pagePara = document.getElementsByTagName('p')[0]` //used indexing as return HTMLCollections of all p tags.
-        --> `pagePara.innerHTML`:
-            --> return content inside thiselemt, both span are as it is.
-            --> 'I hope you all are okay. <span style="display: none;">hiddedn span</span> <span>visible span</span>'
-        -->`pagePara.textContent`:
-            --> return text that is without anytags, even hidden text will be visible but no tags and all only text
-            --> 'I hope you all are okay. hiddedn span visible span'
-        -->`pagePara.innerText`:
-            --> return visible text, text which is visible on page
-            --> 'I hope you all are okay. visible span'
-    --> we can select by className as well  `document.getElementById('c1')`
-
-
-    ## QuerySelectors:
-        --> selectors are similar to CSS like ., #, tagname etc. 
-        --> document.querySelector:
-            --> returns the first element with this tag ("h1"), class (".className"), id ("#headin1") *********
-            --> `document.querySelector('h1')`
-        --> document.querySelectorAll:
-            --> returns the NodeList of elements with this tag
-            --> `document.querySelectorAll('h1')`
-                --> access using indexing
-                --> `document.querySelectorAll('h1')[0]`
-        
-        -> even we can select using attributes as well ('input[type="password"]) //select the input field with type=password
-        -> we can use all css selectors like ("p:first-child"), etc
+    --> const weekDaysParent = document.querySelector(".weekdays")
+    --> `weekDaysParent.children` -> return HTML Collections
+        --> Either we can convert this or 
+        --> Use classic for loop
     
-    ## NodeLists:
-        --> check the prototype and we can see forEach that means we can use forEach here. 
-        --> it is similar to array but not array as we can not use map here.
-        --> Always use functions written in prototype.
-        --> we get this in queryselectorAll
+--> When we do queryselector or any getElemeny y id or class they are expensive tranverse as it traverse tree and then find it. 
+    --> If we have selected an element and want to do some task on this or its children or neighbour. 
+    --> It is better not to use query selector again on whole document.
+    --> We can use: 
+            --> .children 
+                --> console.log(weekDaysParent.children)
+            --> .firstchild 
+                --> console.log(weekDaysParent.firstElementChild); //return Monday div as return first child element of parent
+            --> .lastchild
+                --> console.log(weekDaysParent.lastElementChild); //return Sunday div as return last child element of parent
+            --> .parent 
+                --> console.log(weekDaysParent.children[1].parentElement); //return parent element of child[1].
+            --> .nextElementSibling
+                --> console.log(weekDaysParent.children[1].nextElementSibling); //return next sibling div of Wed.
+            --> .childNodes 
+                --> console.log("Nodes: ", weekDaysParent.childNodes); //look at the length (15) but how?
+                --> For DOM, everything is a Node.
+                --> space after elemnt written in HTML is also a Node "Text Node" ****************************************
+                --> one tag to another is a Node.
+                --> If we add a comment in those spaces then also +2 as (space + comment tag + space)
+                --> React is mostly manipulate through childNodes
+
+
+// Create an Element:
+    --> const newElement = document.createElement('div') //create an element of div tag
+
+    --> we can use . (dot) or setAttribute to set the values. 
+        --> newElement.className = "a b c" //it go to document then bring this className and then update and then go there and set. 
+        --> newElement.setAttribute("className", "a b c") //directly set it
+        ==> We prefer setAttribute bcz it saves our ONE round of rip. 
+            --> it does not fetch it, it just set it.
+            --> Even if it is not present in DOM yet.
     
-    ## HTMLCollections:
-        --> it does not have any loop function in prototypes
-        --> we get this in 'getElementsByClassname".
-    
-    ## convert to array:
-        --> we can convert NodeLists, HTMLCollections to array and use array functions
-        --> `Array.from(pagePara) //provide that variable
+    --> Similar is                       newElement.innerHTML = "New created div"
+        --> 2 round trip for .innerHTML
+                        OR
+        --> `const newinnerText = document.createTextNode("New created div")`
+        -->`newElement.appendChild(newinnerText)`
+
+        --> Here also 2 steps are there. So, it is up to us to decide which one to use. 
+
+    --> Add to document:
+        --> Add this to document
+        --> document.body.appendChild(newElement) //adding this in body. We can go further as well
 */
+
+

@@ -6,9 +6,71 @@
     <title>HTML Document</title>
 </head>
 <body style="background-color: black; color: aliceblue;">
-    <dic class="main-container">
+    <div class="main-container">
         <h1 id="heading1" class="main-headings">Hello Raj</h1>
         <p>I hope you all are okay. <span style="display: none;">hiddedn span</span> <span>visible span</span></p>
-    </dic>
+    </div>
+    <div class="weekdays">
+        <div class="weekday">Monday</div>
+        <div class="weekday">Tuesday</div>
+        <div class="weekday">Wednesday</div>
+        <div class="weekday">Thursday</div>
+        <div class="weekday">Friday</div>
+        <div class="weekday">Saturday</div>
+        <div class="weekday">Sunday</div>
+    </div>
 </body>
+<script>
+    const weekDaysParent = document.querySelector(".weekdays")
+    // console.log(weekDaysParent) // div of "weekdays"
+    console.log(weekDaysParent.children) //return HTMLCollection of div of class weekday
+    console.log(weekDaysParent.children[1]) //return HTMLCollection of div of class Tuesday
+
+    const weekDayCollection = weekDaysParent.children
+
+    for (let i = 0; i < weekDayCollection.length; i++) {
+        const element = weekDayCollection[i];
+        console.log(element);
+        if (i % 2) {
+            // element.style.background-color = "light-pink"; //need to use camel case as it has -
+            element.style.backgroundColor = "lightpink";
+        } else {
+            element.style.backgroundColor = "hotpink";
+        }
+        
+    }
+
+    console.log(weekDaysParent.firstElementChild); //return Monday div as return first child element of parent
+    console.log(weekDaysParent.lastElementChild); //return Sunday div as return last child element of parent
+
+    // console.log(weekDayCollection.parentElement); //return undefined as we need proper element
+    console.log(weekDaysParent.children[1].parentElement); //return parent element of child[1].
+
+    console.log(weekDaysParent.children[1].nextElementSibling); //return next sibling div of Wed.
+
+    console.log("Nodes: ", weekDaysParent.childNodes); //all children of parent
+    
+
+
+
+
+    // Create an Element
+    const newElement = document.createElement('div') //create an element of div tag
+    console.log(newElement) // <div></div>
+
+    newElement.className = "a b c"
+    newElement.id = Math.floor((Math.random() * 10) +1)
+    newElement.setAttribute("title", "new-created-div")
+    newElement.style.backgroundColor = "blue"
+
+
+    newElement.innerHTML = "New created div" // 2 steps (fetch and set)
+    // OR
+    const newinnerText = document.createTextNode("New created div")
+    newElement.appendChild(newinnerText)
+
+    // Add this to document
+    document.body.appendChild(newElement) //adding this in body. We can go further as well
+
+</script>
 </html>
