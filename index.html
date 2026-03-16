@@ -36,29 +36,7 @@
     </div>
 </body>
 <script>
-    function propogationChange(val){
-        console.log("Propogation is: ", val)
-        document.getElementById("ul-tag").addEventListener('click', (e)=>{
-            console.log("ul here");
-        }, val)
-        document.getElementById("li-2").addEventListener('click', (e)=>{
-            console.log("li-2 here");
-        }, val)
-        document.getElementById("div-2").addEventListener('click', (e)=>{
-            console.log("div-2 here");
-            // e.stopPropagation() // it will block the bubble here.
-        }, val)
-        popogationVal = ! popogationVal // this also not working i think we will have to make this change in eventlistners
-    }
-
-    // Event Bubbling: propogation is false
-        // inner to outer --> tree traverse me bubble me dalta jayega ya stack krega
-    // Event Capturing: propogation is true
-        // outer to inner -> tree traverse me jo mila run krte jao
-    let popogationVal = false
-
-    propogationChange(popogationVal)
-    // popogationVal = ! popogationVal //switch  but it is not working
+    
 
 </script>
 </html>
