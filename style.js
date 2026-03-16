@@ -1,165 +1,122 @@
 /*
-    # fetch:
-        --> returns a promise
-        --> If something is written in Async-Await and we see any await then below code will not run until it is resolved. 
-        --> That's why we wait for it to resolve
 
-        --> Why await keyword:
-            --> await tells this line itself that I will be doing some process so wait for me to complete.
+    # Objects: 
+        --> Collection of properties and methods
     
-    # fetch in details:
-        --> https://blog.logrocket.com/fetch-api-node-js/#introducing-fetch-api ==> Read this
-        --> https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch then this
-        --> we can send more args like usename and password to fetch as well
-    
+    # class in JS:
+        --> JS does not have classes like other languages, it has prototypes
 
-    # Error will only occure when browser was not ablse to request else everything is a response. ***************************************
-        --> fetch only rejects on network failures (e.g., no connection, DNS error).  
-        --> Any HTTP response — including 5xx, 4xx — is a resolved promise. 
+    # Object Oriented Programming (OOP):
+        --> OOP is a program peradaim --> style to write code
+        --> parts of OOP:
+                --> Object literal 
+                        --> {}
+                --> constructor functions
+                --> Classes
+                -- Instances (new, this)
+                --> prototypes (also called proto) , etc.
+        --> 4 pillers:
+                --> 1. Abstraction
+                        --> hide the details
+                        --> Hiding complex implementation details and exposing only essential features, --> eg how fetch works internally
+                        --> Abstraction is design-level — simplifies what the system does
+                        --> Ex: Tell/show user that these are the methods/variables you can access, other things you can not see/check. user can not see the complex calculation happenig in function
+                --> 2. Encapsulation
+                        --> put in a wrapper and let user access allowed methods only
+                        --> Bundling data and methods within a class and restricting access (e.g., via private fields), set values using setter, get by getters
+                        --> Encapsulation is implementation-level — protects how it works
+                        --> Ex: Tell/show user that you directly can not change private variables, you need public methods.
+                --> 3. Inheritance
+                        --> inherit properties from parent
+                --> 4. Polymorphism 
+                        --> single thing in different use cases. like console.log prints string, number, objects
+                        --> 2 methods:
+                            --> 1. Overloading 
+                                    --> Compile-time polymorphism
+                                    --> same function name with multiple arg size in same scope. on compile it is told which one to use. example from other lang
+                                        --> int add(int a, int b)
+                                        --> double add(double a, double b)
+                                        --> int add(int a, int b, int c)
+                            --> 2. Overriding 
+                                    --> Runtime polymorphism
+                                    --> same func name with same args.
+                            
+                        More definitions:
+                            --> Type Handling (Ad-hoc Polymorphism)
+                                --> A form of overloading where operations handle different types 
+                                --> 2+5 = 7; "2"+5 = "25"   (operator overloading)
+                                --> console.log can print any time like string, num, object, etc
 
-        --> That's why we should check response.ok or response.status
 
 
-    # fetch internal process:
-        --> response = fetch("abc") -> when we call it 2 actions are fired (parallely)
-            --> 1. create 3 private datastructures like we can not access
-                    --> a. data                   -> variable intially undefined or anything. 
-                    --> b. onfulFilled            -> an empty array
-                    --> c. onRejection            -> an empty array
-            --> 2. Network request handles (browser/node)  -> 
-                    --> 2 type of reply:
-                        --> a. resolve()
-                                --> if resolved then it updates/put this into onFulFilled array. 
-                        --> b. reject()
-                                --> if rejected then it updates/put this into onRejection array. 
+    # this keyword:
+            --> this keyword refers to current context
 
-            --> Once 2nd is done then 
-                --> if onFulFilled is updated then it has a function which dumps the data into 'data' variable
-                --> if onRejection is updated then it has a function which dumps the data into 'data' variable
-            
-            --> once datat variable has something then it update 'response' variable we defined in global scope
+
+
 */
 
-// create promise
-const promiseOne = new Promise(function(resolve, reject){
-    //can do async task like DB calls, Crypt (pass generate/compare), network, etc
-    setTimeout(()=>{
-        console.log("Async task is completed in promise 1")
-    }, 1500)
-})
-
-//resolve is directly linked to .then
-//reject is directly linked to .catch
-
-//consume Promise
-promiseOne.then((res)=>{
-    console.log(".then after promise 1 resolve") // it will never run  because we did not link resolve to .then
-})
-
-
-
-
-
-
-// Promise 2 -> resolve - .then link
-const promiseTwo = new Promise(function(resolve, reject){
-    //can do async task like DB calls, Crypt (pass generate/compare), network, etc
-    setTimeout(()=>{
-        console.log("Async task is completed in promise 2")
-    }, 1500);
-    resolve() // resolve is linked but read the issue below "output"
-})
-
-
-//consume Promise
-promiseTwo.then((res)=>{
-    console.log(".then after promise 2 resolve") // it will never run  because we did not link resolve to .then
-})
-
-
-//Output till this code is:
-/*
-    .then after promise 2 resolve
-    style.js:21 Async task is completed in promise 1
-    style.js:42 Async task is completed in promise 2
-
-Reason is: resolve() is called in Promise and as sequence it will run once settimeout is in macro queue.
-Fix: put resolve in settimeout
-
-
-const promiseTwo = new Promise(function(resolve, reject){
-    //can do async task like DB calls, Crypt (pass generate/compare), network, etc
-    setTimeout(()=>{
-        console.log("Async task is completed in promise 2")
-        resolve() // resolve is linked
-    }, 1500);
-})
-*/
-
-
-
-// Pass response from Promise to .the
-// resolve(data) or resolve(data.response()) -> it can be object, array, function, anything
-// we use `return "returned"` to return or pass to next .then 
-
-
-// Reject
-// reject(error)
-
-
-
-
-
-// Async Await
-// We can use async-await on Promise instead of .then or .catch. It's just that 
-async function consumePromiseTwo() {
-    const response = await promiseTwo
-}
-
-
-//try-catch
-async function consumePromiseTwo() {
-    try { //handles .then
-        const response = await promiseTwo
-        console.log(response);
-    } catch (error) { //.catch
-        console.log(error)
+// Object literal
+const user = {
+    username: "Raj", // property of this object
+    signedIn: true,
+    favnumber: [1, 2, 4],
+    getUserName: function (){ //method
+        console.log(`User name is ${this.username}`);
     }
-    
+}
+//user is called a Object literal
+
+user.getUserName()
+
+
+
+//constructor function 
+/*
+  # new keyword:
+        --? it is used to create new instance or context
+        --> "new" is a operator and Func() is built-in constructor function
+            --> abc = new Promice()
+            --> abcd = new Date()
+
+  # Flow:
+        --> 1. First, object is created and function key-values are added
+        --> 2. Second, `new` keyword create an instance or context for this object
+        --> 3. Third, put all these values in `this` keyword 
+        --> 4. Forth, return the context (inplicitly)
+*/
+
+function userFunc(username, loginCount, isLoggedIn){
+    this.username = username; //binding these values to this context
+    this.loginCount = loginCount;
+    this.isLoggedIn = isLoggedIn;
+    this.greet = function (){
+                    console.log(`Hello, ${this.username}`);
+                    
+                };
+    return this // need to return in new JS as it runs on strict mode
 }
 
+const user1 = userFunc("Raj", 15, true)   //creates these values in Global Object "this.usename" is created in "window" object in browser
+console.log(user1) //if we add greet func then it is undefined    -> find the reason
 
-// fetch
-// it is a lib/object which return a promise. (library to object)
-const uri = "https://api.github.com/users/ee17btech11034"
-async function getUserDetails(url) {
-    try {
-        const data = await fetch(url) 
-        console.log(typeof(data)); //object
-        // console.log(data); //object
-        // console.log(data.json()); //Promise of pending state  BEcause .json also takes some time to parse and convert
-        const response = await data.json(); //wait for it to resolve
-        
-    } catch (error) {
-        console.log("error occured");
-    }    
-}
-
-getUserDetails(uri)
+const user2 = userFunc("Rajesh", 25, false) //it override user1 values as both are in Global Object
+console.log(user1)
 
 
 
+//To escape this mess -> use `new` keyword
 
-//direct .then .catch
+const user3 = new  userFunc("Raja", 15, true)
+console.log(user3)
 
-fetch(uri)
-    .then((res)=>{
-        console.log(".then using fetch")
-        return res.json()
-    })
-    .then((res)=>{
-        console.log(res) //can not do this in above .then
-    })
-    .catch((e)=>{
-        console.log("Error: ", e);        
-    })
+const user4 = new userFunc("Rohit", 21, false) //it override user1 values.
+console.log(user3) //only this context values not of the global context values
+
+
+
+//Constructor
+console.log(user3.constructor) //[Function: userFunc]
+console.log(user3.constructor()) // object with "undefined" values
+
+// instanceof operator, etc.
