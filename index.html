@@ -26,15 +26,39 @@
 </head>
 <body style="background-color: aliceblue;">
     <div class="container">
-        <ul>
-            <li> <a href="./project1.html"> Project 1: Color Change </a> </li>
-            <li> <a href="./project2.html"> Project 2: Color Change </a> </li>
-            <li> <a href="./project3.html"> Project 3: Color Change </a> </li>
-            <li> <a href="./project4.html"> Project 4: Color Change </a> </li>
+        <ul id="ul-tag">
+            <li id="li-1"> <div id="div-1"><a href="#"> Project 1 </a></div>  </li>
+            <li id="li-2"> <div id="div-2"><a href="#"> Project 2 </a></div>  </li>
+            <li id="li-3"> <div id="div-3"><a href="#"> Project 3 </a></div>  </li>
+            <li id="li-4"> <div id="div-4"><a href="#"> Project 4 </a></div>  </li>
+
         </ul>
     </div>
 </body>
 <script>
-    
+    function propogationChange(val){
+        console.log("Propogation is: ", val)
+        document.getElementById("ul-tag").addEventListener('click', (e)=>{
+            console.log("ul here");
+        }, val)
+        document.getElementById("li-2").addEventListener('click', (e)=>{
+            console.log("li-2 here");
+        }, val)
+        document.getElementById("div-2").addEventListener('click', (e)=>{
+            console.log("div-2 here");
+            // e.stopPropagation() // it will block the bubble here.
+        }, val)
+        popogationVal = ! popogationVal // this also not working i think we will have to make this change in eventlistners
+    }
+
+    // Event Bubbling: propogation is false
+        // inner to outer --> tree traverse me bubble me dalta jayega ya stack krega
+    // Event Capturing: propogation is true
+        // outer to inner -> tree traverse me jo mila run krte jao
+    let popogationVal = false
+
+    propogationChange(popogationVal)
+    // popogationVal = ! popogationVal //switch  but it is not working
+
 </script>
 </html>
