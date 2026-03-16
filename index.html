@@ -5,38 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML Document</title>
     <style>
-        ul {
-            display: inline-block;
-            list-style-type: none;
-        }
-        li {
-            display: flex;
-            height: 50px;
-            width: 250px;
-            border: 2px solid cornflowerblue;
-            margin: 10px;
-            align-items: center;
-            justify-content: center;
-        }
-        a {
-            text-decoration: none;
-
-        }
+        
     </style>
 </head>
 <body style="background-color: aliceblue;">
-    <div class="container">
-        <ul id="ul-tag">
-            <li id="li-1"> <div id="div-1"><a href="#"> Project 1 </a></div>  </li>
-            <li id="li-2"> <div id="div-2"><a href="#"> Project 2 </a></div>  </li>
-            <li id="li-3"> <div id="div-3"><a href="#"> Project 3 </a></div>  </li>
-            <li id="li-4"> <div id="div-4"><a href="#"> Project 4 </a></div>  </li>
-
-        </ul>
-    </div>
+    <h1 id="h1-id">setTimeout and clearTimeout</h1>
+    <p id="p-1">practicing settimeout</p>
+    <button id="btn1">button</button>
 </body>
 <script>
     
+    // setTimeout(handlerFunc, timeOutTime)
+    setTimeout((e) => {
+        console.log("General settimeout after 2 sec");
+    }, 2000); //2000 mili seconds = 2 sec
 
+
+    //define function
+    // const generalSetTimeoutFunc = function (time){ //this is also fine
+    const generalSetTimeoutFunc = (time) => { //i prefer arrow function
+        console.log(`General customized settimeout after ${time} sec`);
+    }
+    let time = 2 //can check the output of both and the order as well
+    setTimeout(generalSetTimeoutFunc, time*1000, time)
+
+
+
+
+
+    // Clear timeout
+    // clearTimeout(reference)
+    time = 5
+    const timeoutReference = setTimeout(generalSetTimeoutFunc, time*1000, time) //here we are just defining  but still it will set it bcz it gets in queue and then stack
+    // clearTimeout(timeoutReference) //no use as we just removed it right after set. No output will occur.
+    //lets add this to some event
+    document.getElementById("btn1").addEventListener('click', (e)=>{
+        clearTimeout(timeoutReference)
+        console.log(`Cleared ${time} sec timeout`) //the moment we click it will print as won't wait for queue or stack
+        //If we click before 2 sec then output will be
+        // Cleared 5 sec timeout  > 2 sec one > customized ****************************************************************
+    })
 </script>
 </html>

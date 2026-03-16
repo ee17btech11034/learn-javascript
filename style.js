@@ -1,52 +1,43 @@
 /*
 
-# JS:
-    --> Single threaded 
-    --> Synchronous :-> run sequentially
-    --> comperativaly slow but 
-        --> we can not get JS Engine alone as 
-        --> we get this in runtime engines like browser (v8), NodeJs, etc
-# Execution Context:   
-    --> How code executes
-    -- stack, heap
+# settimeout:
+    --> setTimeout(handlerFunc, timeOutTime)
+        --> setTimeout(handlerFunc, timeOutTime, arg1, arg2)
+        --> we can define function and give reference to it or
+            --> we can write here only
+        --> if we take reference from some where and that func accepts args like arg1, arg2
+        --> run once after this time
 
-# Blocking and Non-blocking:
-    --> Blocking Code:
-        --> block the code execution until it completes
-        --> Read file Sync
-    --> non-blocking Code:
-        --> does not block the code execution 
-        --> Read file ASync
-
-
-
-# Event Loop:
-    ## JS Engine: 
-        --> Heap
-        --> Stack (for script calls) -> LIFO
+    --> Clear timeout
+        --> clearTimeout(reference)
     
-    ## Web API or Node or any other environment -> Here we will discuss webAPI
-    ## Web API:
-        --> These provide extra wrappers and queue based on requirements which makes this Asynchronous
+# setInterval:
+    --> setInterval(handler, repeatTime, args)
+        --> repeat itself after repeatTime.
+        --> Sometimes it clashes or override each other which is not good exp like glitch. better to clean the previous interval
 
-        --> async task come to this from stack like 
-            --> DOM API (Node does not have one) similar to filesystem which Node has but browser does not
-            --> setTimeOut, setinterval, etc.
-            --> fetch (promise)
-        
-        --> It creates 2 queues:
-            -----------https://www.w3docs.com/learn-javascript/event-loop-microtasks-and-macrotasks.html --------------
-            --> 1. Microtask queue:
-                    --> also called High priority queue
-                    --> Promise.then, queueMicrotask, MutationObserver
-            --> 2. Macrotask queue:
-                    --> low priority queue / simple queue
-                    --> setTimeout, setInterval, I/O, UI rendering
-        
-        --> then it puts those async tasks in these queues accordingly.
-        --> once script is done then 
-            --> high priority queues puts its task in stack in SEQUENCE. 
-                --> like promise.then.then.then is resent then first this will resolve fully as this will be in a stack.
-            --> low priority queues puts its task in stack in SEQUENCE. 
+    --> clear setinterval
+    
+    almost sim,ilar to settimeout
 
+
+
+# Projects:
+    --> 1. Keyboard check
+        --> e.key -> tells the key like a, b, alt
+        --> e.keyCode -> keyCode for that key but not deprecated we use .code
+        --> e.code -> code for that key
+    --> 2. Unlimited color -> change color of bg after 1 sec once I click on button and stop when we click on stop
+        --> Random color generate 
+            --> we will use hex val as it is easy (#_ _ _ _ _ _) -> 2 chars denote R, G, B
+            --> const hexValues = "0123456789ABCDEF"
+            --> we will use      floor(math.random*16 ) and 
+            --> str = "#"
+            --> str += randomnum for 6 times
+            --> we define interval ref in global using let and then update in start
+                --> using this var we can clear this
+                --> But when we clear this then better to assign that reference to null. *********************
+            
+            --> When we assign this to null and again click on start then it will show issues as we directly can not assign to null. 
+                --> better to use if statement and then assign it to that so it won't
 */
