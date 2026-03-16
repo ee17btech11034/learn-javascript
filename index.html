@@ -15,35 +15,34 @@
 </body>
 <script>
     
-    // setTimeout(handlerFunc, timeOutTime)
-    setTimeout((e) => {
-        console.log("General settimeout after 2 sec");
-    }, 2000); //2000 mili seconds = 2 sec
+    const  xhr = new XMLHttpRequest() //create an object of reference
+    
+    //.open is the one that create a req
+    // xhr.open(method, APIstr)
+    const apiStr = "https://api.github.com/users/ee17btech11034"
+    xhr.open('GET', apiStr) //we will have to call open
+
+    console.log(xhr.readyState) //print the state number -> max time output will be 1 bcz we are not tracking it continiously
+
+    // xhr.onreadystatechange() //it is a subscribe model -> continiously monitor things
+    xhr.onreadystatechange = function(){
+        console.log(xhr.readyState) // we will get 2, 3, 4
+        //lets detect state
+        if (xhr.readyState === 4){
+            // console.log(responseText); // does not work as not defined
+            console.log(this.responseText); // use from current response's context
+
+            // JSOn convert
+            const data = this.responseText
+            console.log(typeof(data)); //STRING --> when we get the data  most of the time string form
+
+            const jsonData = JSON.parse(data)   // JSon Object         
+            //we can use . properties now
+            
+        }
+    } 
+    xhr.send() //this way we call open 
 
 
-    //define function
-    // const generalSetTimeoutFunc = function (time){ //this is also fine
-    const generalSetTimeoutFunc = (time) => { //i prefer arrow function
-        console.log(`General customized settimeout after ${time} sec`);
-    }
-    let time = 2 //can check the output of both and the order as well
-    setTimeout(generalSetTimeoutFunc, time*1000, time)
-
-
-
-
-
-    // Clear timeout
-    // clearTimeout(reference)
-    time = 5
-    const timeoutReference = setTimeout(generalSetTimeoutFunc, time*1000, time) //here we are just defining  but still it will set it bcz it gets in queue and then stack
-    // clearTimeout(timeoutReference) //no use as we just removed it right after set. No output will occur.
-    //lets add this to some event
-    document.getElementById("btn1").addEventListener('click', (e)=>{
-        clearTimeout(timeoutReference)
-        console.log(`Cleared ${time} sec timeout`) //the moment we click it will print as won't wait for queue or stack
-        //If we click before 2 sec then output will be
-        // Cleared 5 sec timeout  > 2 sec one > customized ****************************************************************
-    })
 </script>
 </html>
