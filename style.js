@@ -1,37 +1,4 @@
 /*
-# Promise:
-    --> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-    --> The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
-    --> 3 states:
-        --> 1. pending
-        --> 2. fulfilled
-        --> 3. rejected
-
-    --> In earlier days (ES4) there were no Promises, People used "Async Await"
-        --> that time there some libraries which provided this functionality (promise, .then, .catch) like Q, BlueBird
-        --> Later in ES6, JS integrated blueBird in it.
-
-
-        --> Chaining:
-            --> Promise.then.then.catch.then.catch.finally 
-            --> finally always run
-
-    Async Await:
-        --> async await directly errors ko handle nhi kr skte hai
-        --> better to use try-catch block for response from Promise
-
-    # Callback hell / pyramid of doom:
-        --> this in JavaScript refers to a situation where multiple nested callbacks are used to handle dependent asynchronous operations, resulting in code that is deeply indented and hard to read or maintain.
-        --> getUser(userId, (user) => {
-                getOrders(user, (orders) => {
-                    processOrders(orders, (processed) => {
-                        sendEmail(processed, (confirmation) => {
-                            console.log("Done:", confirmation);
-                        });
-                    });
-                });
-            });
-    
     # fetch:
         --> returns a promise
         --> If something is written in Async-Await and we see any await then below code will not run until it is resolved. 
@@ -40,6 +7,37 @@
         --> Why await keyword:
             --> await tells this line itself that I will be doing some process so wait for me to complete.
     
+    # fetch in details:
+        --> https://blog.logrocket.com/fetch-api-node-js/#introducing-fetch-api ==> Read this
+        --> https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch then this
+        --> we can send more args like usename and password to fetch as well
+    
+
+    # Error will only occure when browser was not ablse to request else everything is a response. ***************************************
+        --> fetch only rejects on network failures (e.g., no connection, DNS error).  
+        --> Any HTTP response — including 5xx, 4xx — is a resolved promise. 
+
+        --> That's why we should check response.ok or response.status
+
+
+    # fetch internal process:
+        --> response = fetch("abc") -> when we call it 2 actions are fired (parallely)
+            --> 1. create 3 private datastructures like we can not access
+                    --> a. data                   -> variable intially undefined or anything. 
+                    --> b. onfulFilled            -> an empty array
+                    --> c. onRejection            -> an empty array
+            --> 2. Network request handles (browser/node)  -> 
+                    --> 2 type of reply:
+                        --> a. resolve()
+                                --> if resolved then it updates/put this into onFulFilled array. 
+                        --> b. reject()
+                                --> if rejected then it updates/put this into onRejection array. 
+
+            --> Once 2nd is done then 
+                --> if onFulFilled is updated then it has a function which dumps the data into 'data' variable
+                --> if onRejection is updated then it has a function which dumps the data into 'data' variable
+            
+            --> once datat variable has something then it update 'response' variable we defined in global scope
 */
 
 // create promise
