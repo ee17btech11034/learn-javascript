@@ -1,189 +1,237 @@
 /*
-# Prototype:
-    -->  JS's default behavious is prototypal.
-        --> If JS is looking/searchin for something and it does not find it there then
-            --> it will go "one above layer" (parent) and so on (grandparents), 
-            --> until it gets the desired output or null
-    --> arrow functions does not have access to `this` keyword, it is because of prototype.
-    --> prototype provides the access of `new`, `this`, classes, inheritance, etc.
-
-    --> in browser console `arr = [1, 2, 3]`
-        --> `arr`
-            --> we will see array values, length property, prototype
-            --> if open prototype (array)
-                --> this also has some methods which can be applied on arr.
-                --> this has prototype (Objecttype)
-                    --> it also has some methods like constructors, etc.
-        --> Here we can see JS keeps the track of all parents in prototypes.
-        --> Array must be created from Object. 
-        --> prototype chain:  ********************************
-            --> arr → Array.prototype → Object.prototype → null   
-    
-    --> 
-
-*/
-
-const arr = [1, 2, 3, 4, 5, 6]
-// console.log(arr.prototype); //undefined
-/*
-
-    --> arr.prototype is undefined because:
-
-            --> arr is an instance of Array, not the constructor itself. 
-            --> The prototype property exists only on constructor functions (like Array, Object, etc.). 
-            --> On instances, you access the prototype via __proto__ or Object.getPrototypeOf(arr). 
-            --> Array.prototype    OR   arr.__proto__
-
-*/
-
-console.log(arr.__proto__); //all methods in array prototype
-console.log(arr.__proto__.__proto__); //all methods in Object prototype
-
-
-
-
-//Functions
-
-function helloFunc(num){
-    return num*2
-}
-
-helloFunc.power = 3
-console.log(helloFunc.power);  //output will be 3 ==> Means it is behaving like Object as we can use dot (.) method
-console.log(helloFunc.prototype) //{} in Node and {} with Object prototype available in browser
-
-// Function's working/functionality behaves like function but it is an object too. *************************
-
-
-
-// new keyword importance:
-
-function userDetails(uname, score){
-    this.uname = uname;
-    this.score = score;
-    return this;
-}
-
-const user1 = userDetails("Raj", 250)
-console.log(user1); //printMe is not added yet.
-
-//suppose I want to add new methods or property to this function
-userDetails.prototype.printMe = function(){
-    console.log(`Hi ${this.uname}, your score is: ${this.score} .`);
-    
-} //these are added in prototype methods
-
-const user2 = userDetails("Raja", 270)
-console.log(user2); //printMe is not added yet. Because printMe was added later (after function declaration is done)
-
-//If we want all functionalities to be available then use "new"
-// `new` tells function to add and bound these functions
-
-const user3 = new userDetails("Rajesh", 285)
-console.log(user3); 
-console.log(user3.__proto__);  //there we can check
-
-
-userDetails.prototype.incScore = function(){
-    this.score ++;
-    console.log(`Hi ${this.uname}, your score is: ${this.score -1} ==> ${this.score} .`);
-}
-
-const user4 = new userDetails("Rohit", 298)
-user4.incScore() //we can directly access al parent's methods (with just single doct (.)
-
-
-
-/*
- # `new` keyword Flow:
-        --> step 1: Object Creation :==> `new` keyword initiates the creation of a new JS Object.
-        --> step 2: prototype linked :==> newly created object gets linked to the prototype property of the constructor function; means constructor's methods, properties are available.
-        --> step 3: Constructor is called :==> constructor function is called with the specified arguments and this is bound to the newly created object.
-                    -- if no explicit return then `undefined` in restrict mode and `this` in simple mode
-        --> step 4: new object returned :=> After constructor function call, if it does not return non-premitive (object, array, function, etc), the newly created object is returned
+# Class Methods:    
+    --> methods are similar to functions, just we do not need to use `function` keyword
 
 
 */
 
+//ES6 -> introduced classes
+//classes are nothing but the wrapper on function and new keyword.
 
-
-// prototype flow
-let arr1 = [1, 2]
-let obj1 = {
-    uname: "Raj"
+class User {
+    constructor(uname, password, email){
+        this.uname = uname
+        this.email = email
+        this.password = password
+    }
+    encryptPassword(){
+        return `${this.password}124`
+    }
+    showUserDetails(){
+        console.log(`Uname is: ${this.uname}; email is: ${this.email}`)
+    }
 }
+const user1 = new User("user1", 'user1@123', 'user1@email.com')
 
-Object.prototype.greetFunc = function(){
-    console.log("Hii from Object prototype");
-}
-
-//Here we added this functionality to Object. Therefor it will be available to all its descendents.
-
-obj1.greetFunc() //Hii from Object prototype
-arr1.greetFunc() //Hii from Object prototype
-
-
-
-//inheritance
-let obj2 = {uname:"Raj"}
-let obj3 = {score:250,
-    __proto__: obj2 //obj3 will have all properties from obj 2
-}
-
-//other way is 
-// obj3.__proto__: obj2
-console.log(obj3.uname);
-
-//These are outdated, so lets use new ones
-//modern
-Object.setPrototypeOf(obj3, obj2) //obj3 will inherit from obj2
+console.log(user1.encryptPassword());
+user1.showUserDetails()
+console.log("user1 pass: ", user1.password);
 
 
 
 
+// Behind the scene  --> It also uses function
 
-
-
-
-// `call` and `this` keyword
-
-function setUserName(uname){
-    console.log("setting uname")
+function User2(uname, email, password){
     this.uname = uname
+    this.email = email
+    this.password = password
+    this.encryptPassword = function (){
+        return `${this.password}124`
+    }
 }
 
-function setUserDetails(uname, age, score){
-    setUserName(uname)
-    this.age = age 
-    this.score = score
+User2.prototype.showUserDetails = function (){
+    console.log(`Uname is: ${this.uname}; email is: ${this.email}`)
 }
 
-const user_1 = new setUserDetails("user1", 18, 250)
-console.log(user_1) //setting uname                  setUserDetails { age: 18, score: 250 }
+const user2 = new User2("user2", "user2@email.com", "user2@123")
+
+console.log(user2.encryptPassword());
+user2.showUserDetails()
+console.log("user2 pass: ", user2.password);
+
+
+
+
+// Inheritance
+class User3 extends User {
+    constructor(uname, email, password, extra){
+        super(uname, password, email)
+        this.extra = extra
+    }
+}
+
+const user3 = new User3("user3", "user3@email.com", "user3@123", 'just extra')
+
+console.log(user3.email);
+
+console.log("user1 == user3 :", user1 == user3) //2 instances  --> false
+console.log("user1 === user3 :", user1 === user3) //2 instances  --> false
+console.log("User3 === user3 :", User3 === user3) //class and it's instance  --> false
+
+console.log(user3 instanceof User3); //is user3 instance of User3  -->  true
+console.log(user3 instanceof User); //is user3 instance of User3 -->  true
+console.log(User3 instanceof User); //is user3 instance of User3 -->  false
+
+
+
+
+
+// static keyword  -> just like private to class only
+
+class User4 extends User3{
+    constructor(uname, email, password, extra){
+        super(uname, email, password, extra)
+    }
+    // createUniqueID(){
+    //     //this is the function I do not want to give access to user
+    // }
+    static createUniqueID(){ // user instance can not access this
+        this.__id = "1y187"
+        console.log("created unique id");
+    }
+    showUserDetails(){
+        console.log(`Uname is: ${this.uname}; email is: ${this.email}; ID: ${this.__id}`)
+    }
+}
+
+const user4 = new User4('user4', 'user4@email.com', 'user4@123', 'extra4')
+console.log(user4.__id) //undefined
+// user4.createUniqueID() // error as we can not access this
+user4.showUserDetails() //id val is undefined
+
+User4.createUniqueID() //it runs successfully
 
 /*
-output:
-    setting uname
-    setUserDetails { age: 18, score: 250 }
+The __id is undefined because:
+        --> createUniqueID is a static method — it runs on the class, not on instances. 
+        --> this.__id = "1y187" sets a property on the class (User4), not on the instance (user4). 
+        --> showUserDetails tries to access this.__id on the instance, which doesn't have it. 
 
-Why uname is not present:
-    --> Becuase when `setUserName()` runs in call stack it uses its own context and `this` referes to the context of function `setUserName()`
-    --> When execution is completed then it is removed from that stack. ALL wiped OUT ***********************************************************************
-
-    --> To solve this issue we use `.call` it says use  `setUserDetails` 's `this` and provide the reference
-        --> .call takes first parameter `this`-> optional
 */
 
-function setUserName2(uname){
-    console.log("setting uname")
-    this.uname = uname
+
+
+//Fixed one
+
+class User5 extends User3{
+    constructor(uname, email, password, extra){
+        super(uname, email, password, extra)
+        // createUniqueID() //createUniqueID is not defined
+        User5.createUniqueID() //
+    }
+    // createUniqueID(){
+    //     //this is the function I do not want to give access to user
+    // }
+    static createUniqueID(){ // user instance can not access this
+        this.__id = "1y187"
+    }
+    showUserDetails(){
+        console.log(`Uname is: ${this.uname}; email is: ${this.email}; ID: ${this.__id}`)
+    }
 }
 
-function setUserDetails2(uname, age, score){
-    setUserName2.call(this, uname)
-    this.age = age 
-    this.score = score
+const user5 = new User5('user5', 'user5@email.com', 'user5@321', 'extra5')
+console.log("user5__id: ", user5.__id); //undefined -> can not access as instance
+user5.showUserDetails() //again id is undefined
+
+
+
+/*
+The __id is still undefined because:
+        --> createUniqueID() is static, so this refers to the class, not the instance. **********
+        --> this.__id = "1y187" sets a property on the class, not on the user5 object. 
+        --> showUserDetails() tries to access this.__id on the instance, which doesn’t have it. 
+
+*/
+
+
+//Fix this:
+
+class User6 extends User3{
+    constructor(uname, email, password, extra){
+        super(uname, email, password, extra)
+        this.__id = User6.createUniqueID()
+    }
+    // createUniqueID(){
+    //     //this is the function I do not want to give access to user
+    // }
+    static createUniqueID(){ // user instance can not access this
+        return "1y187"
+    }
+    showUserDetails(){
+        console.log(`Uname is: ${this.uname}; email is: ${this.email}; ID: ${this.__id}`)
+    }
 }
 
-const user_2 = new setUserDetails2("user2", 18, 254)
-console.log(user_2) //setting uname           setUserDetails2 { uname: 'user2', age: 18, score: 254 }
+const user6 = new User6('user6', 'user6@email.com', 'user6@321', 'extra6')
+console.log("user6.__id: ", user6.__id); //user6.__id:  1y187
+user6.showUserDetails() //id is present
+
+/* Naming convention
+        -->  __ (like _) is a convention to indicate that a property is internal or private, but it’s not enforced. 
+        -->  Example: __proto__ is a built-in property — the double underscore signals it’s a low-level feature, not for direct use. 
+        -->  For true privacy, use # (private fields): #id, which is not accessible outside the class. 
+*/
+
+
+// make id private
+
+class User7 extends User3{
+    #id //we will have to declare the private fields first
+    constructor(uname, email, password, extra){
+        super(uname, email, password, extra)
+        this.#id = User7.createUniqueID()
+    }
+    static createUniqueID(){ // user instance can not access this
+        return "1y187"
+    }
+    showUserDetails(){
+        console.log(`Uname is: ${this.uname}; email is: ${this.email}; ID: ${this.#id}`)
+    }
+}
+
+const user7 = new User7('user7', 'user7@email.com', 'user7@321', 'extra7')
+// console.log("user7.__id: ", user7.#id); //Error as we can onot access this private variable
+user7.showUserDetails() //got the id
+
+
+
+
+// Lets randomize ths id
+class User8 extends User3{
+    #id //we will have to declare the private fields first
+    constructor(uname, email, password, extra){
+        super(uname, email, password, extra)
+        this.#id = User8.createUniqueID()
+    }
+    static createUniqueID(){ // only current class can access this
+        const idchars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        let uniqueid=  ""
+        let randomID = 0 // so that function does not generate again and again but we do not want anyone to access this variable outside the if. 
+        for (let i = 0; i < 6; i++) {
+            randomID = Math.random() //[0, 1)
+            randomID = (randomID * 36) //[0, 36) -> all includes decimals as well
+            randomID = Math.floor(randomID) //[0, 36) --> only int
+            uniqueid += idchars[randomID]
+        }
+        
+        return uniqueid
+    }
+    showUserDetails(){
+        console.log(`Uname is: ${this.uname}; email is: ${this.email}; ID: ${this.#id}`)
+    }
+}
+
+const user8 = new User8('user8', 'user8@email.com', 'user8@321', 'extra8')
+// console.log("user8.__id: ", user8.#id); //Error as we can onot access this private variable
+user8.showUserDetails() //id is there
+const user8_1 = new User8('user8_1', 'user8_1@email.com', 'user8_1@321', 'extra8_1')
+user8_1.showUserDetails() //Both user8 and user8_1 has unique ids.
+
+
+//Abstraction:  is hiding implementation details — the user doesn't know how createUniqueID works.
+//Encapsulation is bundling data and methods, and controlling access — using #id or static to restrict visibility.
+    //--> tells us how user will access data.
+//polymorphism: showUserDetails is overridden in User4 from User.
