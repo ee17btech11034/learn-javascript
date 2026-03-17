@@ -1,117 +1,152 @@
 /*
-# Object Properties:
-    --> Q. Math.PI = 3.14.... which is by default hardcoded. we want to make changes to that. 
+# Getter:
+    --> When we do not want to give access of any property to user.
+    --> Bydefault class creates getter and setter for each property by their name
+    --> if we define getter then we will have to define setter as well
+    --> setter gets the val from constructor as well
+    --> getter always return something
+    --> console.log(user2.uname);  --> triggers getter
+# Setter
+    --> to set the val
+    --> user2.uname = "Rajesh"; // ← This triggers the setter               **********************************
 
+## .length property is best example of getter and setter as it is just a property not a function but how does it calculate the length
 
-*/
-
-console.log("Default Math.PI: ", Math.PI) //3.14
-Math.PI = 5
-console.log("After first Math.PI: ", Math.PI) //3.15  but how and why it did not change
-
-
-//Lets look at property
-// Object.getOwnPropertyDescriptor  --> helps us to find the propery
-const mathProperties = Object.getOwnPropertyDescriptor(Math)
-console.log("mathProperties: ", mathProperties); //undefined as it asks for property not for Object
-
-const mathProperties2 = Object.getOwnPropertyDescriptor(Math, "PI") // Object, Key
-console.log("mathProperties2: ", mathProperties2); // 
-/*
-    Output: 
-          {
-            value: 3.141592653589793,
-            writable: false,
-            enumerable: false,
-            configurable: false
-            }
-    
-    Here we can see 
-        --> writable: false --> writable is property of PI and val is false
-            --> People can not edit it
-        --> enumerable: false --> "NOT ENUMERABLE" -- we can not run loop on this. 
-    We can not change these.
-*/
-
-
-
-//Factory function -> function to create an object
-// const obj1 = Object.create(null) //{}
-// const obj1 = Object.create() // {} -->by default bhi arg null hi jata hai 
-
-
-
-//Lets set these on our object as well.
-const myUser = {
-    name: "Raja Aiswal", //******
-    username: "rasiwal",
-    favnumbers : [1, 2, 4],
-    isAvailable: true,
-    greet: function (){
-        console.log(`Greetings to ${this.username} aka ${this.name}`);
+# Important:
+    --> User1 class
+        --> When we create a new instance of class User.
+            --> constructor will be called and it will try to set the values
+            --> But setter with property names also get invoked. 
+                --> It also tries to set the values.                           setter is uname()
+                --> setter has         this.uname    in it.
+                --> this.uname is also refering to setter because of same name. 
+                --> think "uname" is a function of object, How do we access it? Using "this.uname"
+                --> uname as approperty constructor me set ho rha hai. so this.uname will first refer to class methods/properties, etc.
         
+        --> Here we will get "Error: RangeError: Maximum call stack size exceeded " error with both getter and setter.
+
+    --> jinke bhi setter/getter bana rhe hai unko name thoda alag dedo ya fir uname ko change kr do.
+*/
+
+
+
+/*
+class User{
+    constructor(uname, email, password){
+        this.uname = uname
+        this.email = email
+        this.password = password
+    }
+    get uname(){ //getter is defined for uname
+        return this.uname.toUpperCaase()
+    }
+    set uname(val){ // setter for uname
+        this.uname = val
+    }
+}
+//whaever properties we set class provides getter and setter
+
+const user1 = new User("Raj", 'raj@email.in', '124421') //RangeError: Maximum call stack size exceeded  ********
+/*
+    Error: RangeError: Maximum call stack size exceeded  
+        
+            this.uname inside setter referes to setter itself. 
+            a  method calling itself is an infonite loop
+* /    
+*/
+
+
+
+
+
+// to fix this we need to use different names
+
+class User2{
+    constructor(uname, email, password){
+        this._uname = uname //jinke bhi setter/getter bana rhe hai unko name thoda alag dedo ya fir uname ko change kr do.
+        this.email = email
+        this.password = password
+    }
+    get uname(){ //getter is defined for uname
+        return this._uname.toUpperCase()
+    }
+    set uname(val){ // setter for uname
+        console.log("val in setter: ", val);
+        console.log("this._uname in setter: ", this._uname);
+        this._uname = val
+    }
+}
+
+const user2 = new User2("Raj", 'raj@email.in', '124421')
+console.log(user2._uname); //"Raj"
+// console.log(user2.uname()); //user2.uname is not a function
+console.log(user2.uname); //RAJ  --> getters are calles this way ************************************
+
+// We can not invoke setter directly.
+user2.uname = "Rajesh"; // ← This triggers the setter               **********************************
+
+console.log(user2.uname); //RAJESH
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Using function way
+function User3(email, password){
+    this._email = email
+    this._password = password
+    Object.defineProperty(this, "email", {
+        get: function(){
+            return this._email.toUpperCase()
+        },
+        set: function(val){
+            this._email = val
+        }
+    })
+}
+
+//doing the same what class code os doing
+
+const user3 = new User3("rajaraja@email", "1928")
+console.log(user3.email); //getter --> RAJARAJA@EMAIL
+user3.email = "rajraje@email" // setter --> set the val
+console.log(user3.email); //RAJRAJE@EMAIL
+
+
+
+
+
+// We can create Object based
+
+const object1 = {
+    _email: "abc@email",
+    _password: "123456789",
+
+    get email(){
+        return this._email
+    },
+    set email(val){
+        this._email = val
     } 
 }
 
-const myUnameProperties = Object.getOwnPropertyDescriptor(myUser, "username") //obj, key
-console.log("myUnameProperties: ", myUnameProperties);
-/*
-output:
-    {
-        value: 'rasiwal',
-        writable: true,
-        enumerable: true,
-        configurable: true
-    }
+// benefit is -> we can use factory function like constructor functions
+// const user4 = Object.create() // create an obje which is refring to null as parent or reference
+const user4 = Object.create(object1) //create an object which is refering from object1
 
-*/
-
-//loop on object
-// for (const [key, val] of myUser) { //Object is not iterable using for-of loop
-for (const [key, val] of Object.entries(myUser)) {
-    //print only if simple key-val nt function or array
-    // if (typeof val != 'function' && typeof val != 'array'){ //issue is  (type of arr == Obj)
-    if ((typeof val != 'function') && (!Array.isArray(val))){ //issue is  (type of arr == Obj)
-        console.log(`${key}: ${val}`);
-        
-    }
-}
-/*
-Output:
-        name: Raja Aiswal
-        username: rasiwal
-        isAvailable: true
-
-*/
-
-
-
-//set new property
-Object.defineProperty(myUser, "username", {
-    writable: false,
-    enumerable: false,
-})
-
-myUser.name = "Raja Yeswal"
-myUser.username = "rajyeswal"
-for (const [key, val] of Object.entries(myUser)) {
-    if ((typeof val != 'function') && (!Array.isArray(val))){ //issue is  (type of arr == Obj)
-        console.log(`${key}: ${val}`);
-        
-    }
-}
-/*
-    output:
-        name: Raja Yeswal
-        isAvailable: true
-
-
-    Here username is not present as it is not enumerable, so won;t come in for loop.
-*/
-console.log("new username: ", myUser.username); //rasiwal -> as writable is false so can not update this
-
-
-Object.defineProperty(myUser, "name", {
-    writable: false,
-    enumerable: true,
-})// we can set multiple properties as well
+console.log(user4); //{} because console.log       only shows own properties, not the inherited ones. ***************
+console.log(user4.__proto__) // { _email: 'abc@email', _password: '123456789', email: [Getter/Setter] }
+console.log(user4.email); //abc@email
