@@ -8,11 +8,61 @@
         
     </style>
 </head>
-<body style="background-color: aliceblue;">
-    <button id="btn1">button</button>
+<body style="color: aliceblue;">
+    <button id="btn1">Green</button>
+    <button id="btn2">red</button>
 </body>
 <script>
+    // document.getElementById("btn1").onclick = function(){
+    //     document.body.style.backgroundColor = "green"
+    // }
+    // document.getElementById("btn2").onclick = function(){
+    //     document.body.style.backgroundColor = "red"
+    // }
+    //what if we have 20 buttons then we can not repeat this code again and again
 
+
+    //solution is function
+    /*
+    function colorChange1(color){
+        // document.body.style.backgroundColor = `green`
+    }
+    
+    document.getElementById("btn1").onclick = colorChange1 // working fine
+
+    */ 
+
+
+    // color as a variable
+    /*
+    function colorChange1(color){
+        document.body.style.backgroundColor = `${color}`
+    }
+    
+    document.getElementById("btn1").onclick = colorChange1 //it won;t work because this function needs an argument else color is "undefined"
+    //but if we give argument
+
+    ############################################################### inportant ########################
+    document.getElementById("btn1").onclick = colorChange1("green") -> here this function is executed so it will set the color even without click. *******************************************
+    */
+
+
+
+
+    //This is solved by Clousers
+    // function main(color){
+    //     function inner(){ // we can return in same line 
+    //         document.body.style.backgroundColor = `${color}`
+    //     }
+    //     return inner;
+    // }
+    function colorChange1(color){
+        return function(){
+            document.body.style.backgroundColor = `${color}`
+        }
+    }
+    document.getElementById("btn1").onclick = colorChange1("green")
+    document.getElementById("btn2").onclick = colorChange1("red")
 </script>
 <script src="./style.js"></script>
 </html>
