@@ -12,53 +12,6 @@
     <button id="btn1">button</button>
 </body>
 <script>
-    class React {
-        constructor(){
-            this.server = 'http://localhost:300/'
-            //we can add more methods or properties here
-
-            //take reference of button
-            document
-                .getElementById("btn1")
-                .addEventListener('click', this.handleClick)
-        }
-        handleClick(){
-            console.log("Handle click started after button clicked");
-            console.log("server: ", this.server); //this.server values is undefined
-            console.log("this: ", this); // <button id="btn1">button</button>
-            console.log("Handle click done");
-            
-        }
-    }
-    const react_app = new React()
-
-    /*
-        Here:
-            --> console.log("server: ", this.server); //this.server values is undefined
-            --> console.log("this: ", this); // <button id="btn1">button</button>
-
-
-    */
-
-    class React2 {
-        constructor(){
-            this.server = 'http://localhost:300/'
-            //we can add more methods or properties here
-
-            //take reference of button
-            document
-                .getElementById("btn1")
-                .addEventListener('click', this.handleClick.bind(this))
-        }
-        handleClick(){
-            console.log("2: Handle click started after button clicked");
-            console.log("2: server: ", this.server); // http://localhost:300/
-            console.log("2: this: ", this); // React2......
-            console.log("2: Handle click done");
-            
-        }
-    }
-    const react_app2 = new React2()
 
 </script>
 <script src="./style.js"></script>
